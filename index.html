@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Special Day Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-30px) translateX(10px) rotate(90deg); }
+            50% { transform: translateY(-60px) translateX(-10px) rotate(180deg); }
+            75% { transform: translateY(-30px) translateX(-10px) rotate(270deg); }
+        }
+
+        .login-wrapper {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            max-width: 450px;
+            width: 90%;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #764ba2;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: 'Quicksand', sans-serif;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .celebration-emoji {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 60px;
+            border-radius: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+            z-index: 9999;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .success-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .hint-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #999;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        @media (max-width: 500px) {
+            .login-wrapper {
+                padding: 40px 25px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles -->
+    <script>
+        for(let i = 0; i < 20; i++) {
+            let particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            document.body.appendChild(particle);
+        }
+    </script>
+
+    <div class="login-wrapper">
+        <div class="celebration-emoji">🎊</div>
+        
+        <div class="header">
+            <h1>Welcome Back!</h1>
+            <p>✨ A Special Surprise Awaits ✨</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">👤 Your Beautiful Name</label>
+                <input type="text" id="username" placeholder="Enter your name here..." autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="password">🔐 Secret Code</label>
+                <input type="password" id="password" placeholder="Enter the magic word...">
+            </div>
+
+            <button type="submit" class="login-btn">Unlock Surprise 🎁</button>
+        </form>
+
+        <p class="hint-text">💡 Hint: Think of someone special in your life</p>
+    </div>
+
+    <div class="success-popup" id="successPopup">
+        🎉 Welcome Birthday Star! 🌟
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const successPopup = document.getElementById('successPopup');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Check credentials
+            if (username === "Shanmugha Priya" && password === "Brindha") {
+                // Show success popup
+                successPopup.classList.add('show');
+                
+                // Redirect after 2.5 seconds
+                setTimeout(() => {
+                    window.location.href = "home.html";
+                }, 2500);
+            } else {
+                // Show error with animation
+                const wrapper = document.querySelector('.login-wrapper');
+                wrapper.style.animation = 'shake 0.5s';
+                
+                setTimeout(() => {
+                    wrapper.style.animation = '';
+                }, 500);
+                
+                alert('❌ Oops! Wrong credentials. Try again! 💫');
+                passwordInput.value = '';
+            }
+        });
+
+        // Shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
